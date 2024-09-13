@@ -1,12 +1,12 @@
 {
   "name": "my-sequelize-project",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "sequelize": "npx babel-node ./node_modules/.bin/sequelize",
     "start": "nodemon  src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +26,8 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.4",
     "@babel/register": "^7.24.6",
-    "sequelize-cli": "^6.6.2"
+    "jest": "^29.7.0",
+    "sequelize-cli": "^6.6.2",
+    "supertest": "^7.0.0"
   }
 }
