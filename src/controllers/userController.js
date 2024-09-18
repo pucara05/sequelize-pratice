@@ -1,6 +1,41 @@
 import User from '../models/user.js';
 import sequelize from '../config/database.js';
 
+
+
+// Crear usuario
+export const createUser = async (req, res) => {
+  try {
+    console.log('Solicitud recibida en /api/users');
+
+    // Verificar la conexión a la base de datos
+    try {
+      await sequelize.authenticate();
+      console.log('Conexión a la base de datos verificada.');
+    } catch (dbError) {
+      console.error('Error de conexión a la base de datos:', dbError);
+      return res.status(500).json({ error: 'Error de conexión a la base de datos' });
+    }
+
+    const { firstName, lastName, email } = req.body;
+
+    // Crear nuevo usuario
+    try {
+      const newUser = await User.create({ firstName, lastName, email });
+      console.log('Usuario creado exitosamente:', newUser);
+      res.status(201).json(newUser);
+    } catch (dbError) {
+      console.error('Error al crear el usuario:', dbError);
+      res.status(400).json({ error: 'Error al crear el usuario' });
+    }
+
+  } catch (error) {
+    console.error('Error general:', error);
+    res.status(500).json({ error: 'Error del servidor' });
+  }
+};
+
+/*
 // Crear usuario
 export const createUser = async (req, res) => {
   try {
@@ -29,7 +64,7 @@ export const createUser = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
+*/
 
 // obtener todos los usuarios 
 export const getUsers = async (req, res) => {
@@ -88,7 +123,8 @@ export const udapteUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const {id} = req.params;
+    // Convertir id a número
+    const id = parseInt(req.params.id, 10);
     const user = await User.findByPk(id);
     if (user) {
       await user.destroy();
