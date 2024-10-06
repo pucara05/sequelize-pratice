@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s # Intervalo para recolectar métricas
+  scrape_timeout: 10s  # Tiempo máximo para obtener las métricas
+
+scrape_configs:
+  - job_name: 'nodejs_app'
+    static_configs:
+      - targets: ['app:3000']  # Reemplaza con el nombre de tu contenedor de aplicación
+
+ # - job_name: 'k6'
+ #   static_configs:
+   #   - targets: ['k6:6565']  # Asegúrate de que K6 exponga métricas en este puerto

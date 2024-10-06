@@ -21,7 +21,7 @@ const config = {
   test: {
     username: DB_USER,
     password: DB_PASSWORD,
-    database: DB_NAME,
+    database: process.env.DB_NAME_TEST || 'myapp_test', // Base de datos de prueba
     host: DB_HOST,
     dialect: DB_DIALECT,
     logging: false,

@@ -1,0 +1,68 @@
+services:
+  influxdb:
+    image: influxdb:1.3
+    environment:
+      INFLUXDB_ADMIN_PASSWORD: 1090bacU
+      INFLUXDB_ADMIN_USER: admin
+      INFLUXDB_DB: k6
+    networks:
+      my_network:
+        aliases:
+          - influxdb
+    ports:
+      - "8086:8086"  # Mapea el puerto 8086 para InfluxDB
+    volumes:
+      - influxdb-data:/var/lib/influxdb  # Volumen para persistencia de datos en InfluxDB
+
+  app:
+    build:
+      context: /home/delphine/Documents/Proyects/pratice-js-node/my-sequelize-project
+      dockerfile: Dockerfile
+    networks:
+      my_network:
+        aliases:
+          - app
+    ports:
+      - "3000:3000"  # Mapea el puerto 3000 para la aplicación Node.js
+
+  k6:
+    depends_on:
+      influxdb:
+        condition: service_started  # Asegura que InfluxDB esté iniciado
+      app:
+        condition: service_started  # Asegura que la aplicación esté iniciada
+    entrypoint:
+      - k6
+      - run
+      - /scripts/loadTest.js  # Ruta al script de K6
+      - --out
+      - influxdb=http://admin:1090bacU@influxdb:8086/k6  # Salida hacia InfluxDB
+    image: grafana/k6
+    networks:
+      my_network:
+        aliases:
+          - k6
+    volumes:
+      - type: bind
+        source: /home/delphine/Documents/Proyects/pratice-js-node/my-sequelize-project/src/test/k6
+        target: /scripts  # Monta el directorio de scripts
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3001:3000"  # Mapea el puerto 3000 del contenedor al 3001 de la máquina
+    networks:
+      my_network:
+        aliases:
+          - grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: 1090bacU  # Cambia la contraseña del admin aquí
+    depends_on:
+      - influxdb  # Asegura que InfluxDB esté disponible antes de iniciar Grafana
+
+networks:
+  my_network:
+    driver: bridge  # Define la red para los servicios
+
+volumes:
+  influxdb-data:  # Volumen para persistencia de datos en InfluxDB
