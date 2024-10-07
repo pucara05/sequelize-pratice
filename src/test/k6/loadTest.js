@@ -1,6 +1,12 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
+export const options = {
+    vus: 10, // Número de usuarios virtuales
+    duration: '30s', // Duración de la prueba
+};
+
+
 export default function () {
     const url = 'http://app:3000/api/users'; // URL de la API
 

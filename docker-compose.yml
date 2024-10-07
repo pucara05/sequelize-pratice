@@ -49,20 +49,23 @@ services:
 
   grafana:
     image: grafana/grafana
+    depends_on:
+      - influxdb
     ports:
-      - "3001:3000"  # Mapea el puerto 3000 del contenedor al 3001 de la máquina
+      - "3001:3000"  # Mapea el puerto 3000 para Grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+    volumes:
+      - grafana-data:/var/lib/grafana  # Volumen persistente para Grafana
     networks:
       my_network:
         aliases:
           - grafana
-    environment:
-      GF_SECURITY_ADMIN_PASSWORD: 1090bacU  # Cambia la contraseña del admin aquí
-    depends_on:
-      - influxdb  # Asegura que InfluxDB esté disponible antes de iniciar Grafana
-
 networks:
   my_network:
     driver: bridge  # Define la red para los servicios
 
 volumes:
   influxdb-data:  # Volumen para persistencia de datos en InfluxDB
+  grafana-data:  # Volumen para persistencia de configuración y datos en Grafana
