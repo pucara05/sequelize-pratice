@@ -2,10 +2,12 @@ import http from 'k6/http';
 import { check, sleep } from 'k6';
 
 export const options = {
-    vus: 10, // Número de usuarios virtuales
-    duration: '30s', // Duración de la prueba
+  stages: [
+        { duration: '30s', target: 50 }, // Fase de arranque: 50 usuarios durante 30 segundos
+        { duration: '1m', target: 100 }, // Aumenta la carga a 100 usuarios en 1 minuto
+        { duration: '30s', target: 0 },  // Fase de enfriamiento: reduce la carga a 0 usuarios
+    ],
 };
-
 
 export default function () {
     const url = 'http://app:3000/api/users'; // URL de la API
