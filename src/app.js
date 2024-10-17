@@ -1,6 +1,6 @@
 import express from 'express';
 import setupSwagger from './swagger/swagger.js';
-import userRoutes from './routes/userRoutes.js';
+import userRoutesv1 from './routes/v1/userRoutes.js';
 //import sequelize from './config/database.js';
 import { collectDefaultMetrics, register } from 'prom-client'; // Importar prom-client
 //import dotenv from 'dotenv';
@@ -17,7 +17,7 @@ app.get('/metrics', async (req, res) => {
   res.end(await register.metrics());
 });
 
-app.use('/api', userRoutes);
+app.use('/api/v1', userRoutesv1);
 setupSwagger(app);
 
 console.log({

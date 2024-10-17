@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, getUsers, getUserById, udapteUser, deleteUser} from '../controllers/userController.js';
+import { createUser, getUsers, getUserById, udapteUser, deleteUser} from '../../controllers/v1/userController.js';
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/users:
+ * /api/v1/users:
  *   post:
  *     summary: Crea un nuevo usuario
  *     tags: [Users]
@@ -44,7 +44,7 @@ router.post('/users', createUser);
 
 /**
  * @swagger
- * /api/users:
+ * /api/v1/users:
  *   get:
  *     summary: Obtiene la lista de todos los usuarios
  *     tags: [Users]
@@ -74,7 +74,7 @@ router.get('/users', getUsers);
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/v1/users/{id}:
  *   get:
  *     summary: Obtiene un usuario por ID
  *     tags: [Users]
@@ -95,7 +95,7 @@ router.get('/users/:id', getUserById );
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/v1/users/{id}:
  *   put:
  *     summary: Actualiza un usuario existente
  *     tags: [Users]
@@ -131,7 +131,7 @@ router.put('/users/:id',udapteUser );
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/v1/users/{id}:
  *   delete:
  *     summary: Elimina un usuario
  *     tags: [Users]

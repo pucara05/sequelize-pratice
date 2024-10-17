@@ -10,7 +10,8 @@ const swaggerOptions = {
       description: "API   documentation",
     },
   },
-  apis: ["./src/routes/*.js"], // direcion de los archivos
+apis: ["./src/routes/v1/*.js"] // Correcto: Busca dentro de la subcarpeta v1
+
 };
 
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
