@@ -6,6 +6,7 @@
   "scripts": {
     "sequelize": "npx babel-node ./node_modules/.bin/sequelize",
     "start": "nodemon  src/server.js",
+    "start:prod": "node src/server.js",
     "test": "jest",
     "test:integration": "NODE_ENV=test jest userIntegration.test.js",
     "test:server": "NODE_ENV=test node src/server.js",
